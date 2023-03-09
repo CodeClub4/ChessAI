@@ -1,2 +1,2 @@
 # ChessAI
-Chess board game with AI oponnents
+Chess board game with AI opponents
