@@ -29,7 +29,7 @@ class ChessBoard:
         self.board = np.copy(START_BOARD)
 
     def print_board(self):
-        print(self.board)
+        print(np.flipud(self.board))
 
     def is_valid_move(self, move: PieceMove) -> bool:
         pass
