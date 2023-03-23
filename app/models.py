@@ -1,6 +1,8 @@
 import numpy as np
 
 # Constant values
+COLUMN_NAMES = np.array(["A", "B", "C", "D", "E", "F", "G", "H"])
+ROW_NAMES = np.array(["8", "7", "6", "5", "4", "3", "2", "1", "0"])
 START_BOARD = np.array(
     [
         ["r", "n", "b", "q", "k", "b", "n", "r"],
@@ -29,7 +31,10 @@ class ChessBoard:
         self.board = np.copy(START_BOARD)
 
     def print_board(self):
-        print(np.flipud(self.board))
+        flipped_board = np.flipud(self.board)
+        board_col_names_added = np.r_[flipped_board, [COLUMN_NAMES]]
+        full_board = np.c_[ROW_NAMES, board_col_names_added]
+        print(full_board)
 
     def is_valid_move(self, move: PieceMove) -> bool:
         pass
