@@ -2,7 +2,16 @@ from models import ChessBoard, PieceMove
 
 
 def get_input() -> PieceMove:
-    pass
+    move_split = tuple(input("make your move: ").split())
+
+    start_pos, end_pos = (move_split[0], move_split[1])
+
+    start_pos_conv = PieceMove.position_converter(start_pos)
+    end_pos_conv = PieceMove.position_converter(end_pos)
+
+    piece_move = PieceMove(start_pos_conv, end_pos_conv)
+
+    return piece_move
 
 
 def main():
