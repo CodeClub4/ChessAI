@@ -24,22 +24,27 @@ class PieceMove:
     to_y: int
 
     def __init__(self, start_conv, end_conv):
-        start_conv_split = [*start_conv]
-        end_conv_split = [*end_conv]
-        self.from_x, self.from_y = start_conv_split[0], start_conv_split[1]
-        self.to_x, self.to_y = end_conv_split[0], end_conv_split[1]
+        self.from_x, self.from_y = start_conv[0], start_conv[1]
+        self.to_x, self.to_y = end_conv[0], end_conv[1]
 
     @staticmethod
-    def position_converter(board_pos: str) -> str:
+    def position_converter(board_pos: str) -> tuple[int, int]:
         board_pos_split = [*board_pos]
-        start_pos, end_pos = (board_pos_split[0], board_pos_split[1])
+        start_pos, end_pos = (board_pos_split[0].upper(), board_pos_split[1])
 
         start_pos_conv = np.where(COLUMN_NAMES == start_pos)[0][0]
         end_pos_conv = int(end_pos) - 1
 
-        array_pos = str(start_pos_conv) + str(end_pos_conv)
+        return start_pos_conv, end_pos_conv
 
-        return array_pos
+    @staticmethod
+    def from_input_move(move_split) -> "PieceMove":
+        start_pos, end_pos = (move_split[0], move_split[1])
+
+        start_pos_conv = PieceMove.position_converter(start_pos)
+        end_pos_conv = PieceMove.position_converter(end_pos)
+
+        return PieceMove(start_pos_conv, end_pos_conv)
 
 
 class ChessBoard:
