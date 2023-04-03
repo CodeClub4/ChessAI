@@ -2,7 +2,11 @@ from models import ChessBoard, PieceMove
 
 
 def get_input() -> PieceMove:
-    pass
+    board_move_split = input("make your move: ").split()
+
+    piece_move = PieceMove(board_move_split)
+
+    return piece_move
 
 
 def main():
@@ -24,5 +28,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    pass
+    main()
