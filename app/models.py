@@ -2,7 +2,7 @@ import numpy as np
 
 # Constant values
 COLUMN_NAMES = np.array(["A", "B", "C", "D", "E", "F", "G", "H"])
-ROW_NAMES = np.array(["8", "7", "6", "5", "4", "3", "2", "1", "0"])
+ROW_NAMES = np.array(["8", "7", "6", "5", "4", "3", "2", "1", " "])
 START_BOARD = np.array(
     [
         ["r", "n", "b", "q", "k", "b", "n", "r"],
@@ -22,19 +22,19 @@ class PieceMove:
     to_pos: tuple
 
     def __init__(self, board_move_split):
-        from_board_pos, to_board_pos = (board_move_split[0], board_move_split[1])
-        self.from_pos = PieceMove.position_converter(from_board_pos)
-        self.to_pos = PieceMove.position_converter(to_board_pos)
+        from_pos_board, to_pos_board = (board_move_split[0], board_move_split[1])
+        self.from_pos = self.position_converter(from_pos_board)
+        self.to_pos = self.position_converter(to_pos_board)
 
     @staticmethod
-    def position_converter(board_pos: str) -> tuple[int, int]:
-        board_pos_split = [*board_pos]
-        x_pos, y_pos = (board_pos_split[0].upper(), board_pos_split[1])
+    def position_converter(pos_board: str) -> tuple[int, int]:
 
-        x_pos_conv = np.where(COLUMN_NAMES == x_pos)[0][0]
-        y_pos_conv = int(y_pos) - 1
+        x_pos_board, y_pos_board = (pos_board[0].upper(), pos_board[1])
 
-        return y_pos_conv, x_pos_conv
+        x_pos_array = np.where(COLUMN_NAMES == x_pos_board)[0][0]
+        y_pos_array = int(y_pos_board) - 1
+
+        return y_pos_array, x_pos_array
 
 
 class ChessBoard:
@@ -50,11 +50,11 @@ class ChessBoard:
         print(full_board)
 
     def is_valid_move(self, move: PieceMove) -> bool:
-        return 1
+        return True
 
-    def make_move(self, move: PieceMove) -> bool:
+    def make_move(self, move: PieceMove):
         self.board[move.to_pos] = self.board[move.from_pos]
         self.board[move.from_pos] = " "
 
     def is_game_over(self) -> bool:
-        return 0
+        return False

@@ -2,10 +2,8 @@ from models import ChessBoard, PieceMove
 
 
 def get_input() -> PieceMove:
-    board_move_split = input("make your move: ").split()
-
-    piece_move = PieceMove(board_move_split)
-
+    input_move_split = input("make your move: ").split()
+    piece_move = PieceMove(input_move_split)
     return piece_move
 
 
