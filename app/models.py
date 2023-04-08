@@ -18,8 +18,8 @@ START_BOARD = np.array(
 
 
 class PieceMove:
-    from_pos: tuple
-    to_pos: tuple
+    from_pos: tuple[int, int]
+    to_pos: tuple[int, int]
 
     def __init__(self, board_move_split):
         from_pos_board, to_pos_board = (board_move_split[0], board_move_split[1])
@@ -28,7 +28,6 @@ class PieceMove:
 
     @staticmethod
     def position_converter(pos_board: str) -> tuple[int, int]:
-
         x_pos_board, y_pos_board = (pos_board[0].upper(), pos_board[1])
 
         x_pos_array = np.where(COLUMN_NAMES == x_pos_board)[0][0]
@@ -48,6 +47,12 @@ class ChessBoard:
         board_col_names_added = np.r_[flipped_board, [COLUMN_NAMES]]
         full_board = np.c_[ROW_NAMES, board_col_names_added]
         print(full_board)
+
+    def is_white_piece(self, move: PieceMove) -> bool:
+        if self.board[move.from_pos].islower():
+            return True
+        elif self.board[move.from_pos].isupper():
+            return False
 
     def is_valid_move(self, move: PieceMove) -> bool:
         return True

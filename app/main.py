@@ -9,6 +9,7 @@ def get_input() -> PieceMove:
 
 def main():
     chess_board = ChessBoard()
+    white_turn = True
     while not chess_board.is_game_over():
         # print the current board
         chess_board.print_board()
@@ -21,8 +22,13 @@ def main():
             print("Invalid move, please try again")
             continue
 
-        # make the move and update the board
-        chess_board.make_move(move)
+        if chess_board.is_white_piece(move) is white_turn:
+            # make the move and update the board
+            chess_board.make_move(move)
+            # change player turn
+            white_turn = not white_turn
+        else:
+            print("Invalid move, It is your opponent's turn")
 
 
 if __name__ == "__main__":
