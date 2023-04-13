@@ -17,9 +17,27 @@ START_BOARD = np.array(
 )
 
 
+class Piece:
+    @staticmethod
+    def is_white(board: np.array, from_pos: tuple[int, int]) -> bool:
+        if board[from_pos].islower():
+            return True
+        elif board[from_pos].isupper():
+            return False
+
+    def is_valid_move(self, board: np.array, to_pos: tuple[int, int]):
+        pass
+
+
+class Pawn(Piece):
+    def is_valid_move(self, board: np.array, to_pos: tuple[int, int]):
+        super().is_valid_move(board, to_pos)
+        pass
+
+
 class PieceMove:
-    from_pos: tuple
-    to_pos: tuple
+    from_pos: tuple[int, int]
+    to_pos: tuple[int, int]
 
     def __init__(self, board_move_split):
         from_pos_board, to_pos_board = (board_move_split[0], board_move_split[1])
@@ -28,7 +46,6 @@ class PieceMove:
 
     @staticmethod
     def position_converter(pos_board: str) -> tuple[int, int]:
-
         x_pos_board, y_pos_board = (pos_board[0].upper(), pos_board[1])
 
         x_pos_array = np.where(COLUMN_NAMES == x_pos_board)[0][0]
@@ -49,7 +66,10 @@ class ChessBoard:
         full_board = np.c_[ROW_NAMES, board_col_names_added]
         print(full_board)
 
-    def is_valid_move(self, move: PieceMove) -> bool:
+    def is_right_turn(self, move: PieceMove, white_turn: bool) -> bool:
+        return Piece.is_white(self.board, move.from_pos) == white_turn
+
+    def is_valid_move(self) -> bool:
         return True
 
     def make_move(self, move: PieceMove):
