@@ -1,6 +1,6 @@
 import numpy as np
 
-from models.common import PieceMove
+from app.models.common import PieceMove
 
 
 class Piece:
@@ -18,6 +18,22 @@ class Piece:
 class Pawn(Piece):
     def validate_move(self, board: np.array, move: PieceMove):
         super().validate_move(board, move)
+
+        if move.from_pos[1] == move.to_pos[1]:
+            print("same column")
+            if move.to_pos[0] > move.from_pos[0]:
+                print("moved front")
+            if (board[move.to_pos] == " ") & (abs(move.to_pos[0] - move.from_pos[0]) == 1):
+                print("free space, moved 1 block")
+                return True
+
+        if abs(move.from_pos[1] - move.to_pos[1]) == 1:
+            print("different column")
+            if move.to_pos[0] > move.from_pos[0]:
+                print("moved front")
+            if (board[move.to_pos] != " ") & (abs(move.to_pos[0] - move.from_pos[0]) == 1):
+                print("valid space, moved 1 block")
+                return True
 
 
 class Knight(Piece):
