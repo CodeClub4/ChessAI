@@ -1,8 +1,8 @@
 import numpy as np
-from declarations import COLUMN_NAMES, ROW_NAMES, START_BOARD
-from errors import BaseError, WrongTurnError
-from models.common import PieceMove
-from models.pieces import Piece, get_piece
+from app.declarations import COLUMN_NAMES, ROW_NAMES, START_BOARD
+from app.errors import BaseError, WrongTurnError
+from app.models.common import PieceMove
+from app.models.pieces import Piece, get_piece
 
 
 class ChessBoard:
