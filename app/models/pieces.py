@@ -1,5 +1,5 @@
 import numpy as np
-from models.common import PieceMove
+from app.models.common import PieceMove
 
 
 class Piece:
