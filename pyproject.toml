@@ -21,15 +21,33 @@ exclude = '''
 )/
 '''
 
-[tool.isort]
-combine_star = true
-ensure_newline_before_comments = true
-float_to_top = true
-include_trailing_comma = true
-line_length = 80
-multi_line_output= 3
-skip = ["venv"]
-src_paths = ["app"]
-known_tests = ['tests']
-sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'TESTS', 'FIRSTPARTY', 'LOCALFOLDER']
-use_parentheses = true
+[tool.ruff]
+target-version = 'py310'
+line-length = 80
+exclude = [
+    '.git',
+    '__pycache__',
+    'docs',
+    'venv'
+]
+
+[tool.ruff.lint]
+select = [
+    'E',  # pycodestyle errors
+    'W',  # pycodestyle warnings
+    'F',  # pyflakes
+    'C',  # flake8-comprehensions
+    'B',  # flake8-bugbear
+    'I',  # isort
+]
+ignore = [
+    'E501',  # line too long, handled by black
+    'B008',  # do not perform function calls in argument defaults
+]
+
+[tool.ruff.lint.isort]
+known-local-folder = ['app']
+combine-as-imports = true
+
+[tool.ruff.lint.mccabe]
+max-complexity = 17
