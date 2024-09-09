@@ -2,7 +2,7 @@ class BaseError(Exception):
     error_msg: str
 
     def get_error_msg(self) -> str:
-        return f"----- {self.error_msg} -----"
+        return f"[Error]: ----- {self.error_msg} -----"
 
 
 class WrongTurnError(BaseError):
