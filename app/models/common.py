@@ -13,9 +13,8 @@ class PieceMove:
 
     @staticmethod
     def __position_converter(pos_board: str) -> tuple[int, int]:
-        x_pos_board, y_pos_board = (pos_board[0].upper(), pos_board[1])
-
-        x_pos_array = int(np.where(COLUMN_NAMES == x_pos_board)[0][0])
-        y_pos_array = int(y_pos_board) - 1
+        pos_letter, pos_numb = (pos_board[0].upper(), pos_board[1])
+        x_pos_array = int(np.where(COLUMN_NAMES == pos_letter)[0][0])
+        y_pos_array = int(pos_numb) - 1
 
         return x_pos_array, y_pos_array

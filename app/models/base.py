@@ -1,6 +1,6 @@
 import numpy as np
 from declarations import COLUMN_NAMES, ROW_NAMES, START_BOARD
-from errors import BaseError, WrongTurnError
+from errors import BaseError, BoardLimitError, WrongTurnError
 from models.common import PieceMove
 from models.pieces import Piece, get_piece
 
@@ -43,7 +43,7 @@ class GameTurn:
         self.white_turn = not self.white_turn
 
 
-class MoveValidator:
+class Validator:
     board: np.array
     move: PieceMove
     turn: GameTurn
@@ -53,6 +53,18 @@ class MoveValidator:
         self.move = move
         self.turn = turn
 
+    @staticmethod
+    def validate_input(board_move_split: list):
+        from_pos_board, to_pos_board = board_move_split[0], board_move_split[1]
+        Validator.__validate_input_move(from_pos_board)
+        Validator.__validate_input_move(to_pos_board)
+
+    @staticmethod
+    def __validate_input_move(pos_board: str):
+        pos_letter, pos_numb = pos_board[0].upper(), pos_board[1]
+        if not (pos_letter in COLUMN_NAMES and int(pos_numb) in range(1, 9)):
+            raise BoardLimitError()
+
     def __check_turn(self):
         if (
             Piece.get_color(self.board, self.move.from_pos)
@@ -60,11 +72,8 @@ class MoveValidator:
         ):
             raise WrongTurnError()
 
-    def __check_move_limitations(self): ...
-
     def validate(self):
         self.__check_turn()
-        self.__check_move_limitations()
 
         piece = get_piece(self.board[self.move.from_pos])
         piece.validate_move(self.board, self.move)
@@ -77,37 +86,25 @@ class ChessGame:
     def __get_input(self) -> PieceMove:
         turn_color = self.turn.get_color()
         input_move_msg = f"({turn_color}'s turn) make your move: "
-        input_move = input(input_move_msg).split()
-        return PieceMove(input_move)
+        input_move_split = input(input_move_msg).split()
 
-    def __validate_move(self, move: PieceMove) -> tuple[bool, str]:
-        try:
-            move_validator = MoveValidator(
-                self.chess_board.board, move, self.turn
-            )
-            move_validator.validate()
-        except BaseError as error:
-            return False, error.get_error_msg()
-        return True, ""
+        Validator.validate_input(input_move_split)
+        return PieceMove(input_move_split)
+
+    def validate_move(self, move: PieceMove):
+        move_validator = Validator(self.chess_board.board, move, self.turn)
+        move_validator.validate()
 
     def start(self):
         self.chess_board = ChessBoard()
         self.turn = GameTurn()
         while not self.chess_board.is_game_over():
-            # print the current board
             self.chess_board.print_board()
-
-            # get user input
-            next_move = self.__get_input()
-
-            # validation step
-            is_valid_move, error_msg = self.__validate_move(next_move)
-            if not is_valid_move:
-                print(error_msg)
+            try:
+                next_move = self.__get_input()
+                self.validate_move(next_move)
+            except BaseError as error:
+                print(error.get_error_msg())
                 continue
-
-            # make the move and update the board
             self.chess_board.make_move(next_move)
-
-            # change player turn
             self.turn.change_turn()
