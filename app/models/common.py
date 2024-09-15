@@ -19,7 +19,7 @@ class PieceMove:
     def position_converter(pos_board: str) -> tuple[int, int]:
         x_pos_board, y_pos_board = (pos_board[0].upper(), pos_board[1])
 
-        x_pos_array = np.where(COLUMN_NAMES == x_pos_board)[0][0]
+        x_pos_array = int(np.where(COLUMN_NAMES == x_pos_board)[0][0])
         y_pos_array = int(y_pos_board) - 1
 
         return y_pos_array, x_pos_array
