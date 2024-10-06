@@ -1,6 +1,6 @@
 import numpy as np
 
-from declarations import COLUMN_NAMES
+from app.declarations import COLUMN_NAMES
 
 
 class PieceMove:
