@@ -19,7 +19,9 @@ class Pawn(Piece):
         super().validate_move(board, move)
 
 
-class Knight(Piece): ...
+class Knight(Piece):
+    def validate_move(self, board: np.array, move: PieceMove):
+        pass
 
 
 class Bishop(Piece): ...
