@@ -51,7 +51,26 @@ class Queen(Piece):
 
 class King(Piece):
     def validate_move(self, board: np.array, move: PieceMove):
-        pass
+        super().validate_move(board, move)
+
+        # Restrict the king's movement to one block
+        if abs(move.from_pos[0] - move.to_pos[0]) <= 1 and abs(move.from_pos[1] - move.to_pos[1]) <= 1:
+            # Check if the move is in the same column
+            if move.from_pos[1] == move.to_pos[1]:
+                print("valid column move")
+                return True
+
+            # Check if the move is in the same row
+            if move.from_pos[0] == move.to_pos[0]:
+                print("valid row move")
+                return True
+
+            # Check if the move is diagonal
+            if abs(move.from_pos[0] - move.to_pos[0]) == abs(move.from_pos[1] - move.to_pos[1]):
+                print("valid diagonal move")
+                return True
+
+        raise WrongMoveError()
 
 
 PIECE_CLASS_MAP = {
