@@ -20,7 +20,9 @@ class Piece:
 class Pawn(Piece): ...
 
 
-class Knight(Piece): ...
+class Knight(Piece):
+    def validate_move(self, board: np.array, move: PieceMove):
+        pass
 
 
 class Bishop(Piece): ...
