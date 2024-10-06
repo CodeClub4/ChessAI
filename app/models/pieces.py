@@ -1,5 +1,6 @@
 import numpy as np
 from app.models.common import PieceMove
+from app.errors import WrongMoveError
 
 
 class Piece:
