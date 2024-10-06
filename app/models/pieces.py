@@ -1,5 +1,6 @@
 import numpy as np
 from app.models.common import PieceMove
+from app.errors import WrongMoveError
 
 
 class Piece:
@@ -10,29 +11,32 @@ class Piece:
         elif board[pos].isupper():
             return "black"
 
-    def validate_move(self, board: np.array, move: PieceMove):
+    def validate_move(self, board: np.array, move: PieceMove, white_turn: bool):
         pass
 
 
 class Pawn(Piece):
-    def validate_move(self, board: np.array, move: PieceMove):
-        super().validate_move(board, move)
+    def validate_move(self, board: np.array, move: PieceMove, white_turn: bool):
+        super().validate_move(board, move, white_turn)
 
-        if move.from_pos[1] == move.to_pos[1]:
+        # 1 for white_turn (up), -1 for not white_turn (down)
+        direction = 1 if white_turn else -1
+
+        # Move in the same column
+        if move.to_pos[0] == move.from_pos[0] + direction and move.from_pos[1] == move.to_pos[1]:
+            print("moved", "up" if white_turn else "down")
             print("same column")
-            if move.to_pos[0] > move.from_pos[0]:
-                print("moved front")
-            if (board[move.to_pos] == " ") & (abs(move.to_pos[0] - move.from_pos[0]) == 1):
-                print("free space, moved 1 block")
-                return True
+            print("moved 1 block")
+            return True
 
-        if abs(move.from_pos[1] - move.to_pos[1]) == 1:
+        # Move diagonally
+        if move.to_pos[0] == move.from_pos[0] + direction and abs(move.from_pos[1] - move.to_pos[1]) == 1:
+            print("moved", "up" if white_turn else "down")
             print("different column")
-            if move.to_pos[0] > move.from_pos[0]:
-                print("moved front")
-            if (board[move.to_pos] != " ") & (abs(move.to_pos[0] - move.from_pos[0]) == 1):
-                print("valid space, moved 1 block")
-                return True
+            print("moved 1 block")
+            return True
+
+        raise WrongMoveError()
 
 
 class Knight(Piece): ...

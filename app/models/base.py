@@ -67,7 +67,7 @@ class MoveValidator:
         self.__check_move_limitations()
 
         piece = get_piece(self.board[self.move.from_pos])
-        piece.validate_move(self.board, self.move)
+        piece.validate_move(self.board, self.move, self.white_turn)
 
 
 class ChessGame:
