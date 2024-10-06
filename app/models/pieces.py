@@ -49,7 +49,9 @@ class Queen(Piece):
         raise WrongMoveError()
 
 
-class King(Piece): ...
+class King(Piece):
+    def validate_move(self, board: np.array, move: PieceMove):
+        pass
 
 
 PIECE_CLASS_MAP = {
