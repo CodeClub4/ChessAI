@@ -22,18 +22,26 @@ class Pawn(Piece):
         # 1 for white_turn (up), -1 for not white_turn (down)
         direction = 1 if white_turn else -1
 
-        # Move in the same column
-        if move.to_pos[0] == move.from_pos[0] + direction and move.from_pos[1] == move.to_pos[1]:
-            print("moved", "up" if white_turn else "down")
-            print("same column")
-            print("moved 1 block")
-            return True
+        # Determine the starting position
+        start_pos = 1 if white_turn else 6
 
-        # Move diagonally
-        if move.to_pos[0] == move.from_pos[0] + direction and abs(move.from_pos[1] - move.to_pos[1]) == 1:
-            print("moved", "up" if white_turn else "down")
-            print("different column")
-            print("moved 1 block")
+        row_diff = move.to_pos[0] - move.from_pos[0]
+        col_diff = abs(move.from_pos[1] - move.to_pos[1])
+
+        # Check for valid forward moves
+        if move.from_pos[1] == move.to_pos[1]:
+            # Move 1 block forward
+            if row_diff == direction:
+                print("moved 1 block")
+                return True
+            # Move 2 blocks from starting position
+            if move.from_pos[0] == start_pos and row_diff == 2 * direction:
+                print("moved 2 blocks")
+                return True
+
+        # Check for diagonal capture
+        if row_diff == direction and col_diff == 1:
+            print("capture 1 block diagonally")
             return True
 
         raise WrongMoveError()
