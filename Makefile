@@ -7,3 +7,6 @@ isort:
 	isort ${SOURCE_PATH}/
 
 reformat: black isort
+
+install-hooks:
+	pre-commit install

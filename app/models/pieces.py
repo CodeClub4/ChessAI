@@ -1,15 +1,14 @@
 import numpy as np
-
 from models.common import PieceMove
 
 
 class Piece:
     @staticmethod
-    def is_white(board: np.array, pos: tuple[int, int]) -> bool:
+    def get_color(board: np.array, pos: tuple[int, int]) -> str:
         if board[pos].islower():
-            return True
+            return "white"
         elif board[pos].isupper():
-            return False
+            return "black"
 
     def validate_move(self, board: np.array, move: PieceMove):
         pass
@@ -20,24 +19,19 @@ class Pawn(Piece):
         super().validate_move(board, move)
 
 
-class Knight(Piece):
-    ...
+class Knight(Piece): ...
 
 
-class Bishop(Piece):
-    ...
+class Bishop(Piece): ...
 
 
-class Rook(Piece):
-    ...
+class Rook(Piece): ...
 
 
-class Queen(Piece):
-    ...
+class Queen(Piece): ...
 
 
-class King(Piece):
-    ...
+class King(Piece): ...
 
 
 PIECE_CLASS_MAP = {
