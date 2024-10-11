@@ -12,7 +12,7 @@ class ChessBoard:
         self.board = np.copy(START_BOARD)
 
     def print_board(self):
-        flipped_board = np.flipud(self.board)
+        flipped_board = np.flipud((np.rot90(np.fliplr(self.board))))
         board_col_names_added = np.r_[flipped_board, [COLUMN_NAMES]]
         full_board = np.c_[ROW_NAMES, board_col_names_added]
         print(full_board)
