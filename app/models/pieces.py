@@ -24,11 +24,11 @@ class Knight(Piece):
     def validate_move(self, board: np.array, move: PieceMove):
         super().validate_move(board, move)
 
-        row_diff = abs(move.from_pos[0] - move.to_pos[0])
-        col_diff = abs(move.from_pos[1] - move.to_pos[1])
+        col_diff = abs(move.from_pos[0] - move.to_pos[0])
+        row_diff = abs(move.from_pos[1] - move.to_pos[1])
 
         # Check for the knight's "gama" move:
-        if (row_diff == 2 and col_diff == 1) or (row_diff == 1 and col_diff == 2):
+        if (col_diff == 2 and row_diff == 1) or (col_diff == 1 and row_diff == 2):
             print("valid gama move")
             return True
 
