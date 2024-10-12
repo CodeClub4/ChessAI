@@ -7,3 +7,7 @@ class BaseError(Exception):
 
 class WrongTurnError(BaseError):
     error_msg = "Wrong turn, please try again"
+
+
+class WrongMoveError(BaseError):
+    error_msg = "Wrong move, please try again"
