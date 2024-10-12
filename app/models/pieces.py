@@ -50,12 +50,17 @@ class Bishop(Piece):
 class Rook(Piece):
     def validate_move(self, board: np.array, move: PieceMove):
         super().validate_move(board, move)
+
+        # Check if the move is in the same column
         if move.from_pos[0] == move.to_pos[0]:
-            print("same column")
-            return
+            print("valid column move")
+            return True
+
+        # Check if the move is in the same row
         if move.from_pos[1] == move.to_pos[1]:
-            print("same row")
-            return
+            print("valid row move")
+            return True
+
         raise WrongMoveError()
 
 
