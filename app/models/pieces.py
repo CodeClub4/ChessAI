@@ -56,12 +56,12 @@ class King(Piece):
         # Restrict the king's movement to one block
         if abs(move.from_pos[0] - move.to_pos[0]) <= 1 and abs(move.from_pos[1] - move.to_pos[1]) <= 1:
             # Check if the move is in the same column
-            if move.from_pos[1] == move.to_pos[1]:
+            if move.from_pos[0] == move.to_pos[0]:
                 print("valid column move")
                 return True
 
             # Check if the move is in the same row
-            if move.from_pos[0] == move.to_pos[0]:
+            if move.from_pos[1] == move.to_pos[1]:
                 print("valid row move")
                 return True
 
