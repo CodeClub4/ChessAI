@@ -26,7 +26,16 @@ class Knight(Piece): ...
 class Bishop(Piece): ...
 
 
-class Rook(Piece): ...
+class Rook(Piece):
+    def validate_move(self, board: np.array, move: PieceMove):
+        super().validate_move(board, move)
+        if move.from_pos[0] == move.to_pos[0]:
+            print("same column")
+            return
+        if move.from_pos[1] == move.to_pos[1]:
+            print("same row")
+            return
+        raise WrongMoveError()
 
 
 class Queen(Piece): ...
