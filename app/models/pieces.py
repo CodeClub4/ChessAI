@@ -53,6 +53,10 @@ class King(Piece):
     def validate_move(self, board: np.array, move: PieceMove):
         super().validate_move(board, move)
 
+        # Prevent moving to the same position
+        if move.from_pos == move.to_pos:
+            raise WrongMoveError()
+
         # Restrict the king's movement to one block
         if abs(move.from_pos[0] - move.to_pos[0]) <= 1 and abs(move.from_pos[1] - move.to_pos[1]) <= 1:
             # Check if the move is in the same column
