@@ -31,10 +31,6 @@ class Queen(Piece):
     def validate_move(self, board: np.array, move: PieceMove):
         super().validate_move(board, move)
 
-        # Prevent moving to the same position
-        if move.from_pos == move.to_pos:
-            raise WrongMoveError()
-
         # Check if the move is in the same column
         if move.from_pos[0] == move.to_pos[0]:
             print("valid column move")
