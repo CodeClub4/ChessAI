@@ -20,7 +20,19 @@ class Piece:
 class Pawn(Piece): ...
 
 
-class Knight(Piece): ...
+class Knight(Piece):
+    def validate_move(self, board: np.array, move: PieceMove):
+        super().validate_move(board, move)
+
+        col_diff = abs(move.from_pos[0] - move.to_pos[0])
+        row_diff = abs(move.from_pos[1] - move.to_pos[1])
+
+        # Check for the knight's "gama" move:
+        if (col_diff == 2 and row_diff == 1) or (col_diff == 1 and row_diff == 2):
+            print("valid gama move")
+            return
+
+        raise WrongMoveError()
 
 
 class Bishop(Piece): ...
