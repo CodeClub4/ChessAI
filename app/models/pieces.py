@@ -30,7 +30,7 @@ class Knight(Piece):
         # Check for the knight's "gama" move:
         if (col_diff == 2 and row_diff == 1) or (col_diff == 1 and row_diff == 2):
             print("valid gama move")
-            return True
+            return
 
         raise WrongMoveError()
 
