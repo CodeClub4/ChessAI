@@ -46,7 +46,7 @@ class Queen(Piece):
         # Check if the move is diagonal
         if abs(move.from_pos[0] - move.to_pos[0]) == abs(move.from_pos[1] - move.to_pos[1]):
             print(f"valid diagonal move")
-            return True
+            return
 
         raise WrongMoveError()
 
@@ -60,17 +60,17 @@ class King(Piece):
             # Check if the move is in the same column
             if move.from_pos[0] == move.to_pos[0]:
                 print("valid column move")
-                return True
+                return
 
             # Check if the move is in the same row
             if move.from_pos[1] == move.to_pos[1]:
                 print("valid row move")
-                return True
+                return
 
             # Check if the move is diagonal
             if abs(move.from_pos[0] - move.to_pos[0]) == abs(move.from_pos[1] - move.to_pos[1]):
                 print("valid diagonal move")
-                return True
+                return
 
         raise WrongMoveError()
 
