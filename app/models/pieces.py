@@ -35,7 +35,16 @@ class Knight(Piece):
         raise WrongMoveError()
 
 
-class Bishop(Piece): ...
+class Bishop(Piece):
+    def validate_move(self, board: np.array, move: PieceMove):
+        super().validate_move(board, move)
+
+        # Check if the move is diagonal
+        if abs(move.from_pos[0] - move.to_pos[0]) == abs(move.from_pos[1] - move.to_pos[1]):
+            print(f"valid diagonal move")
+            return
+
+        raise WrongMoveError()
 
 
 class Rook(Piece): ...
