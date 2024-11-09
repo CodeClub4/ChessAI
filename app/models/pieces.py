@@ -47,7 +47,21 @@ class Bishop(Piece):
         raise WrongMoveError()
 
 
-class Rook(Piece): ...
+class Rook(Piece):
+    def validate_move(self, board: np.array, move: PieceMove):
+        super().validate_move(board, move)
+
+        # Check if the move is in the same column
+        if move.from_pos[0] == move.to_pos[0]:
+            print("valid column move")
+            return
+
+        # Check if the move is in the same row
+        if move.from_pos[1] == move.to_pos[1]:
+            print("valid row move")
+            return
+
+        raise WrongMoveError()
 
 
 class Queen(Piece):
