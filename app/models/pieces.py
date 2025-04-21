@@ -18,17 +18,20 @@ class Piece:
 
     def validate_capture(self, board: np.array, move: PieceMove):
         # First check if there's actually a piece at the destination
-        if board[move.to_pos] != ' ':
+        if board[move.to_pos] != " ":
             # Check if it's an enemy piece
-            source_color = self.get_color(board, move.from_pos)
-            target_color = self.get_color(board, move.to_pos)
+            moving_piece_color = self.get_color(board, move.from_pos)
+            target_piece_color = self.get_color(board, move.to_pos)
 
-            if source_color == target_color:
+            if moving_piece_color == target_piece_color:
                 raise WrongCaptureError("Cannot capture your own piece")
 
-            # Get the piece type for the message
-            piece_type = self.__class__.__name__.lower()
-            print(f"{piece_type} captures piece")
+            # Get the moving and the target pieces type for the print message
+            moving_piece_type = self.__class__.__name__.lower()
+            target_piece_char = board[move.to_pos]
+            target_piece_type = get_piece(target_piece_char).__class__.__name__.lower()
+            print(f"{moving_piece_color} {moving_piece_type} captures {target_piece_color} {target_piece_type}")
+
         return
 
 
@@ -83,7 +86,7 @@ class Pawn(Piece):
         # Check if the move is diagonal (required for pawn captures)
         if col_diff == 1 and row_diff == direction:
             # Check if there's a piece at the destination
-            if board[move.to_pos] == ' ':
+            if board[move.to_pos] == " ":
                 raise WrongCaptureError("Pawns can only move diagonally when capturing an enemy piece")
 
             # Use parent's validation to check if it's an enemy piece
