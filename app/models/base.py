@@ -68,6 +68,7 @@ class MoveValidator:
 
         piece = get_piece(self.board[self.move.from_pos])
         piece.validate_move(self.board, self.move)
+        piece.validate_capture(self.board, self.move)
 
 
 class ChessGame:

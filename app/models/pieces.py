@@ -1,6 +1,6 @@
 import numpy as np
 from app.models.common import PieceMove
-from app.errors import WrongMoveError
+from app.errors import WrongMoveError, WrongCaptureError
 
 
 class Piece:
@@ -14,7 +14,25 @@ class Piece:
     def validate_move(self, board: np.array, move: PieceMove):
         # Prevent moving to the same position
         if move.from_pos == move.to_pos:
-            raise WrongMoveError()
+            raise WrongMoveError("Cannot move to the same position")
+
+    def validate_capture(self, board: np.array, move: PieceMove):
+        # First check if there's actually a piece at the destination
+        if board[move.to_pos] != " ":
+            # Check if it's an enemy piece
+            moving_piece_color = self.get_color(board, move.from_pos)
+            target_piece_color = self.get_color(board, move.to_pos)
+
+            if moving_piece_color == target_piece_color:
+                raise WrongCaptureError("Cannot capture your own piece")
+
+            # Get the moving and the target pieces type for the print message
+            moving_piece_type = self.__class__.__name__.lower()
+            target_piece_char = board[move.to_pos]
+            target_piece_type = get_piece(target_piece_char).__class__.__name__.lower()
+            print(f"{moving_piece_color} {moving_piece_type} captures {target_piece_color} {target_piece_type}")
+
+        return
 
 
 class Pawn(Piece):
@@ -34,23 +52,50 @@ class Pawn(Piece):
         col_diff = abs(move.to_pos[0] - move.from_pos[0])
         row_diff = move.to_pos[1] - move.from_pos[1]
 
-        # Check for valid forward moves
-        if move.from_pos[0] == move.to_pos[0]:
-            # Move 1 block forward
-            if row_diff == direction:
-                print("moved 1 block")
-                return
-            # Move 2 blocks from starting position
-            if move.from_pos[1] == start_pos and row_diff == 2 * direction:
-                print("moved 2 blocks")
-                return
-
-        # Check for diagonal capture
+        # Check if the move is diagonal (let validate_capture handle it)
         if col_diff == 1 and row_diff == direction:
-            print("capture 1 block diagonally")
             return
 
-        raise WrongMoveError()
+        # For forward moves, ensure the destination square is empty
+        if board[move.to_pos] != ' ':
+            raise WrongMoveError("Pawns cannot move forward to an occupied square")
+
+        # Move 1 block forward
+        if row_diff == direction:
+            print("moved 1 block")
+            return
+
+        # Move 2 blocks from starting position
+        if move.from_pos[1] == start_pos and row_diff == 2 * direction:
+            print("moved 2 blocks")
+            return
+
+        raise WrongMoveError("Invalid pawn move")
+
+    def validate_capture(self, board: np.array, move: PieceMove):
+        # Get the color of the piece at the starting position
+        color = self.get_color(board, move.from_pos)
+
+        # 1 for white (moves up), -1 for black (moves down)
+        direction = 1 if color == "white" else -1
+
+        # Calculate the differences between positions
+        col_diff = abs(move.to_pos[0] - move.from_pos[0])
+        row_diff = move.to_pos[1] - move.from_pos[1]
+
+        # Check if the move is diagonal (required for pawn captures)
+        if col_diff == 1 and row_diff == direction:
+            # Check if there's a piece at the destination
+            if board[move.to_pos] == " ":
+                raise WrongCaptureError("Pawns can only move diagonally when capturing an enemy piece")
+
+            # Use parent's validation to check if it's an enemy piece
+            super().validate_capture(board, move)
+
+            return
+
+        # Not a diagonal move, so not a capture attempt - that's fine
+        return
 
 
 class Knight(Piece):
@@ -65,7 +110,7 @@ class Knight(Piece):
             print("valid gama move")
             return
 
-        raise WrongMoveError()
+        raise WrongMoveError("Invalid knight move")
 
 
 class Bishop(Piece):
@@ -77,7 +122,7 @@ class Bishop(Piece):
             print(f"valid diagonal move")
             return
 
-        raise WrongMoveError()
+        raise WrongMoveError("Invalid bishop move")
 
 
 class Rook(Piece):
@@ -94,7 +139,7 @@ class Rook(Piece):
             print("valid row move")
             return
 
-        raise WrongMoveError()
+        raise WrongMoveError("Invalid rook move")
 
 
 class Queen(Piece):
@@ -116,7 +161,7 @@ class Queen(Piece):
             print(f"valid diagonal move")
             return
 
-        raise WrongMoveError()
+        raise WrongMoveError("Invalid queen move")
 
 
 class King(Piece):
@@ -140,7 +185,7 @@ class King(Piece):
                 print("valid diagonal move")
                 return
 
-        raise WrongMoveError()
+        raise WrongMoveError("Invalid king move")
 
 
 PIECE_CLASS_MAP = {
