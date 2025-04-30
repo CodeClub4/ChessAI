@@ -1,4 +1,4 @@
-from models.base import ChessGame
+from models2.base import ChessGame
 
 
 def main():

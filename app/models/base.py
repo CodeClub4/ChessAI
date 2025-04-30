@@ -1,6 +1,6 @@
 import numpy as np
 from app.declarations import COLUMN_NAMES, ROW_NAMES, START_BOARD
-from app.errors import BaseError, WrongTurnError
+from app.errors import BaseError, InvalidPlayerTurnError
 from app.models.common import PieceMove
 from app.models.pieces import Piece, get_piece
 
@@ -58,7 +58,7 @@ class MoveValidator:
             Piece.get_color(self.board, self.move.from_pos)
             != self.turn.get_color()
         ):
-            raise WrongTurnError()
+            raise InvalidPlayerTurnError()
 
     def __check_move_limitations(self): ...
 
@@ -94,6 +94,7 @@ class ChessGame:
     def start(self):
         self.chess_board = ChessBoard()
         self.turn = GameTurn()
+
         while not self.chess_board.is_game_over():
             # print the current board
             self.chess_board.print_board()
