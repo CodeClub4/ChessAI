@@ -1,7 +1,7 @@
 import numpy as np
 
 COLUMN_NAMES = np.array(["A", "B", "C", "D", "E", "F", "G", "H"])
-ROW_NAMES = np.array(["8", "7", "6", "5", "4", "3", "2", "1", " "])
+ROW_NAMES = np.array(["8 ", "7 ", "6 ", "5 ", "4 ", "3 ", "2 ", "1 ", "  "])
 START_BOARD = np.array(
     [
         ["r", "p", " ", " ", " ", " ", "P", "R"],
